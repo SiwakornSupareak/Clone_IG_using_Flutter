@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:clone_web/screen/commentpage.dart';
 import 'package:clone_web/screen/locationpage.dart'; // Import the LocationPage
 import 'package:clone_web/screen/contactpage.dart'; // Import the ContactPage
-import 'package:flutter/material.dart';
 
 class PostCard2 extends StatefulWidget {
   final String postImage;
@@ -9,7 +9,7 @@ class PostCard2 extends StatefulWidget {
   final String username;
   final String location;
   final String caption;
-  final String time; // New time property
+  final String time;
 
   const PostCard2({
     required this.postImage,
@@ -17,7 +17,7 @@ class PostCard2 extends StatefulWidget {
     required this.username,
     required this.location,
     required this.caption,
-    required this.time, // Initialize the time property
+    required this.time,
     super.key,
   });
 
@@ -26,10 +26,9 @@ class PostCard2 extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard2> {
-  bool _isLiked = false; // Track like state
-  bool _isBookmarked = false; // Track bookmark state
+  bool _isLiked = false;
+  bool _isBookmarked = false;
 
-  // Sample counts for favorites and comments
   int favoritesCount = 10; // Replace with your logic to get the actual count
   int commentsCount = 5; // Replace with your logic to get the actual count
 
@@ -75,9 +74,9 @@ class _PostCardState extends State<PostCard2> {
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(top: 70),
-              child: Center( // Center the card
+              child: Center(
                 child: SizedBox(
-                  width: 500, // Set a fixed width for the card
+                  width: 500,
                   child: Card(
                     elevation: 5,
                     child: Column(
@@ -87,9 +86,9 @@ class _PostCardState extends State<PostCard2> {
                         GestureDetector(
                           onDoubleTap: () {
                             setState(() {
-                              _isLiked = !_isLiked; // Toggle like state on double tap
-                              if (_isLiked) favoritesCount++; // Increment count on like
-                              else favoritesCount--; // Decrement count on unlike
+                              _isLiked = !_isLiked;
+                              if (_isLiked) favoritesCount++;
+                              else favoritesCount--;
                             });
                           },
                           child: _buildPostImage(),
@@ -97,8 +96,8 @@ class _PostCardState extends State<PostCard2> {
                         _buildActions(),
                         _buildLikes(),
                         _buildCaption(),
-                        _buildViewComments(), // Updated method
-                        _buildTimestamp(), // Add timestamp here
+                        _buildViewComments(),
+                        _buildTimestamp(),
                       ],
                     ),
                   ),
@@ -118,7 +117,7 @@ class _PostCardState extends State<PostCard2> {
       left: 0,
       right: 0,
       child: AppBar(
-        backgroundColor: Colors.black, // Set AppBar color to black
+        backgroundColor: Colors.black,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -209,9 +208,9 @@ class _PostCardState extends State<PostCard2> {
           InkWell(
             onTap: () {
               setState(() {
-                _isLiked = !_isLiked; // Toggle like state on tap
-                if (_isLiked) favoritesCount++; // Increment count on like
-                else favoritesCount--; // Decrement count on unlike
+                _isLiked = !_isLiked;
+                if (_isLiked) favoritesCount++;
+                else favoritesCount--;
               });
             },
             child: Row(
@@ -233,7 +232,15 @@ class _PostCardState extends State<PostCard2> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CommentsPage()),
+                MaterialPageRoute(
+                  builder: (context) => CommentsPage(
+                    onCommentSent: () {
+                      setState(() {
+                        commentsCount++; // Increment count on comment
+                      });
+                    },
+                  ),
+                ),
               );
             },
             child: Row(
@@ -256,7 +263,7 @@ class _PostCardState extends State<PostCard2> {
           InkWell(
             onTap: () {
               setState(() {
-                _isBookmarked = !_isBookmarked; // Toggle bookmark state
+                _isBookmarked = !_isBookmarked;
               });
             },
             child: Icon(
@@ -283,13 +290,20 @@ class _PostCardState extends State<PostCard2> {
     );
   }
 
-  // Updated _buildViewComments method
   Widget _buildViewComments() {
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CommentsPage()),
+          MaterialPageRoute(
+            builder: (context) => CommentsPage(
+              onCommentSent: () {
+                setState(() {
+                  commentsCount++; // Increment count on comment
+                });
+              },
+            ),
+          ),
         );
       },
       child: const Padding(
@@ -297,22 +311,21 @@ class _PostCardState extends State<PostCard2> {
         child: Text(
           'View all comments...',
           style: TextStyle(
-            color: Colors.blue, // Make it look clickable
+            color: Colors.blue,
           ),
         ),
       ),
     );
   }
 
-  // New widget to display the timestamp
   Widget _buildTimestamp() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
       child: Text(
-        widget.time, // Display the time property here
+        widget.time,
         style: const TextStyle(
           fontSize: 12.0,
-          color: Colors.grey, // Color for the timestamp
+          color: Colors.grey,
         ),
       ),
     );

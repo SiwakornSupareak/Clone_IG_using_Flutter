@@ -233,12 +233,17 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
   }
 
   void _handleComment() {
-    setState(() {
-      _commentCount++; // Increment comment count
-    });
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => CommentsPage()),
+      MaterialPageRoute(
+        builder: (context) => CommentsPage(
+          onCommentSent: () {
+            setState(() {
+              _commentCount++; // Increment comment count
+            });
+          },
+        ),
+      ),
     );
   }
 
@@ -341,7 +346,7 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
                                 ),
                               ),
                               child: Text(
-                                _isFollowing ? 'Following' : 'Follow',
+                                _isFollowing ? 'Follow' : 'Following',
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ),

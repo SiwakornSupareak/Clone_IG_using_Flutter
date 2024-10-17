@@ -100,7 +100,7 @@ class _PostCard1State extends State<PostCard1> {
                         _buildActions(),
                         _buildLikes(),
                         _buildCaption(),
-                        _buildViewComments(), // Updated method
+                        _buildViewComments(),
                         _buildTimestamp(), // New timestamp widget
                       ],
                     ),
@@ -239,7 +239,15 @@ class _PostCard1State extends State<PostCard1> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CommentsPage()),
+                MaterialPageRoute(
+                  builder: (context) => CommentsPage(
+                    onCommentSent: () {
+                      setState(() {
+                        commentsCount++; // Increment comment count when a new comment is sent
+                      });
+                    },
+                  ),
+                ),
               );
             },
             child: Row(
@@ -295,7 +303,15 @@ class _PostCard1State extends State<PostCard1> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CommentsPage()),
+          MaterialPageRoute(
+            builder: (context) => CommentsPage(
+              onCommentSent: () {
+                setState(() {
+                  commentsCount++; // Increment comment count when a new comment is sent
+                });
+              },
+            ),
+          ),
         );
       },
       child: const Padding(
