@@ -252,10 +252,31 @@ class _PostCardState extends State<PostCard> {
     );
   }
 
-  Widget _buildViewComments() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
-      child: Text('View all comments...'),
+   Widget _buildViewComments() {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CommentsPage(
+              onCommentSent: () {
+                setState(() {
+                  _commentCount++; // Increment count on comment
+                });
+              },
+            ),
+          ),
+        );
+      },
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+        child: Text(
+          'View all comments...',
+          style: TextStyle(
+            color: Colors.blue,
+          ),
+        ),
+      ),
     );
   }
 
